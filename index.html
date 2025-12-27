@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AMINE GAMES & SERVICES - Borne Interactive</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Écran d'attente -->
+    <div id="welcome-screen" class="screen active">
+        <div class="welcome-content">
+            <div class="logo-container">
+                <div class="logo-circle">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <h1 class="logo-text">AMINE<br>GAMES & SERVICES</h1>
+            </div>
+            
+            <div class="welcome-animation">
+                <div class="game-icons">
+                    <i class="fab fa-playstation"></i>
+                    <i class="fab fa-xbox"></i>
+                    <i class="fas fa-gamepad"></i>
+                    <i class="fas fa-joystick"></i>
+                </div>
+                <p class="tagline">Borne Interactive de Location de Jeux</p>
+            </div>
+            
+            <button class="start-btn" onclick="startApp()">
+                <i class="fas fa-hand-pointer"></i> TOUCHER POUR COMMENCER
+            </button>
+            
+            <div class="instructions">
+                <p><i class="fas fa-info-circle"></i> Sélectionnez au moins 3 jeux pour commander</p>
+                <p><i class="fas fa-print"></i> Ticket imprimé automatiquement après confirmation</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interface principale -->
+    <div id="main-interface" style="display: none;">
+        <!-- Header -->
+        <header>
+            <button class="header-btn home-btn" onclick="goHome()" title="Accueil">
+                <i class="fas fa-home"></i>
+            </button>
+            
+            <div class="header-title">
+                <h1>AMINE GAMES & SERVICES</h1>
+                <div class="subtitle">Borne Interactive</div>
+            </div>
+            
+            <div class="header-right">
+                <button class="header-btn cart-btn" onclick="toggleCart()" title="Panier">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="badge">0</span>
+                </button>
+                <div class="header-time" id="current-time"></div>
+            </div>
+        </header>
+
+        <!-- Navigation des catégories -->
+        <nav class="category-nav" id="category-nav">
+            <!-- Généré dynamiquement -->
+        </nav>
+
+        <!-- Barre de recherche -->
+        <div class="search-container">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" 
+                       id="search-input" 
+                       placeholder="Rechercher un jeu..." 
+                       onfocus="showKeyboard()">
+                <button class="clear-search" onclick="clearSearch()" title="Effacer">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <button class="filter-btn" onclick="toggleFilters()" title="Filtrer">
+                <i class="fas fa-filter"></i>
+            </button>
+        </div>
+
+        <!-- Filtres -->
+        <div class="filters-panel" id="filters-panel">
+            <div class="filter-group">
+                <h4>Plateforme :</h4>
+                <div class="filter-tags" id="platform-filters"></div>
+            </div>
+            <div class="filter-group">
+                <h4>Prix :</h4>
+                <div class="price-range">
+                    <span id="price-min">0 DH</span>
+                    <input type="range" id="price-slider" min="0" max="1000" value="1000" class="slider">
+                    <span id="price-max">1000+ DH</span>
+                </div>
+            </div>
+            <div class="filter-buttons">
+                <button class="btn apply-filters" onclick="applyFilters()">Appliquer</button>
+                <button class="btn reset-filters" onclick="resetFilters()">Réinitialiser</button>
+            </div>
+        </div>
+
+        <!-- Clavier virtuel -->
+        <div class="virtual-keyboard" id="virtual-keyboard">
+            <div class="keyboard-row">
+                <button class="key" data-key="1">1</button>
+                <button class="key" data-key="2">2</button>
+                <button class="key" data-key="3">3</button>
+                <button class="key" data-key="4">4</button>
+                <button class="key" data-key="5">5</button>
+                <button class="key" data-key="6">6</button>
+                <button class="key" data-key="7">7</button>
+                <button class="key" data-key="8">8</button>
+                <button class="key" data-key="9">9</button>
+                <button class="key" data-key="0">0</button>
+            </div>
+            <div class="keyboard-row">
+                <button class="key" data-key="A">A</button>
+                <button class="key" data-key="Z">Z</button>
+                <button class="key" data-key="E">E</button>
+                <button class="key" data-key="R">R</button>
+                <button class="key" data-key="T">T</button>
+                <button class="key" data-key="Y">Y</button>
+                <button class="key" data-key="U">U</button>
+                <button class="key" data-key="I">I</button>
+                <button class="key" data-key="O">O</button>
+                <button class="key" data-key="P">P</button>
+            </div>
+            <div class="keyboard-row">
+                <button class="key" data-key="Q">Q</button>
+                <button class="key" data-key="S">S</button>
+                <button class="key" data-key="D">D</button>
+                <button class="key" data-key="F">F</button>
+                <button class="key" data-key="G">G</button>
+                <button class="key" data-key="H">H</button>
+                <button class="key" data-key="J">J</button>
+                <button class="key" data-key="K">K</button>
+                <button class="key" data-key="L">L</button>
+                <button class="key" data-key="M">M</button>
+            </div>
+            <div class="keyboard-row">
+                <button class="key" data-key="W">W</button>
+                <button class="key" data-key="X">X</button>
+                <button class="key" data-key="C">C</button>
+                <button class="key" data-key="V">V</button>
+                <button class="key" data-key="B">B</button>
+                <button class="key" data-key="N">N</button>
+                <button class="key special" onclick="backspace()">
+                    <i class="fas fa-backspace"></i>
+                </button>
+                <button class="key special space" onclick="typeKey(' ')">ESPACE</button>
+                <button class="key special" onclick="hideKeyboard()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Contenu principal -->
+        <main>
+            <!-- Page d'accueil -->
+            <div id="home-page" class="page active">
+                <div class="hero-section">
+                    <h2>Choisissez votre plateforme</h2>
+                    <p>Sélectionnez une catégorie pour explorer nos jeux</p>
+                </div>
+                
+                <div class="platforms-grid">
+                    <div class="platform-card ps5" onclick="loadCategory('PS5')">
+                        <div class="platform-icon">
+                            <i class="fab fa-playstation"></i>
+                        </div>
+                        <h3>PLAYSTATION 5</h3>
+                        <div class="game-count" id="count-ps5">0 jeux</div>
+                        <div class="platform-badge">Nouveau</div>
+                    </div>
+                    
+                    <div class="platform-card ps4" onclick="loadCategory('PS4')">
+                        <div class="platform-icon">
+                            <i class="fab fa-playstation"></i>
+                        </div>
+                        <h3>PLAYSTATION 4</h3>
+                        <div class="game-count" id="count-ps4">0 jeux</div>
+                    </div>
+                    
+                    <div class="platform-card xbox" onclick="loadCategory('XBOX Series')">
+                        <div class="platform-icon">
+                            <i class="fab fa-xbox"></i>
+                        </div>
+                        <h3>XBOX SERIES</h3>
+                        <div class="game-count" id="count-xbox">0 jeux</div>
+                    </div>
+                    
+                    <div class="platform-card nintendo" onclick="loadCategory('Switch')">
+                        <div class="platform-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3>NINTENDO SWITCH</h3>
+                        <div class="game-count" id="count-switch">0 jeux</div>
+                    </div>
+                    
+                    <div class="platform-card retro" onclick="showAllCategories()">
+                        <div class="platform-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <h3>CONSOLES RÉTRO</h3>
+                        <div class="game-count">+600 jeux</div>
+                    </div>
+                    
+                    <div class="platform-card all" onclick="loadAllGames()">
+                        <div class="platform-icon">
+                            <i class="fas fa-th-large"></i>
+                        </div>
+                        <h3>TOUS LES JEUX</h3>
+                        <div class="game-count" id="count-all">0 jeux</div>
+                    </div>
+                </div>
+                
+                <div class="promo-section">
+                    <div class="promo-card">
+                        <i class="fas fa-tags"></i>
+                        <h4>PROMOTION DU MOIS</h4>
+                        <p>Location 3 jeux = 1 jeu gratuit</p>
+                    </div>
+                    <div class="promo-card">
+                        <i class="fas fa-clock"></i>
+                        <h4>LOCATION 7 JOURS</h4>
+                        <p>Retour sous 7 jours</p>
+                    </div>
+                    <div class="promo-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>GARANTIE</h4>
+                        <p>Jeux testés et garantis</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page des catégories -->
+            <div id="categories-page" class="page">
+                <div class="page-header">
+                    <h2 id="categories-title"></h2>
+                    <div class="breadcrumb" id="breadcrumb"></div>
+                </div>
+                <div class="categories-grid" id="categories-container"></div>
+            </div>
+
+            <!-- Page des jeux -->
+            <div id="games-page" class="page">
+                <div class="page-header">
+                    <button class="btn back-btn" onclick="goBack()">
+                        <i class="fas fa-arrow-left"></i> Retour
+                    </button>
+                    <h2 id="games-title"></h2>
+                    <div class="sort-options">
+                        <select id="sort-select" onchange="sortGames()">
+                            <option value="name-asc">Nom (A-Z)</option>
+                            <option value="name-desc">Nom (Z-A)</option>
+                            <option value="price-asc">Prix (Croissant)</option>
+                            <option value="price-desc">Prix (Décroissant)</option>
+                            <option value="popular">Plus populaires</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="games-grid" id="games-container"></div>
+                <div class="pagination" id="pagination"></div>
+            </div>
+
+            <!-- Page de recherche -->
+            <div id="search-page" class="page">
+                <div class="page-header">
+                    <button class="btn back-btn" onclick="goHome()">
+                        <i class="fas fa-arrow-left"></i> Accueil
+                    </button>
+                    <h2>Résultats de recherche</h2>
+                    <div id="search-count">0 résultats</div>
+                </div>
+                <div class="games-grid" id="search-results"></div>
+            </div>
+        </main>
+
+        <!-- Panier -->
+        <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+        <div class="cart-sidebar" id="cart-sidebar">
+            <div class="cart-header">
+                <h3><i class="fas fa-shopping-cart"></i> Votre Panier</h3>
+                <button class="close-cart" onclick="toggleCart()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="cart-items" id="cart-items">
+                <div class="empty-cart" id="empty-cart">
+                    <i class="fas fa-shopping-basket"></i>
+                    <p>Votre panier est vide</p>
+                    <p>Sélectionnez au moins 3 jeux</p>
+                </div>
+            </div>
+            
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>Sous-total :</span>
+                    <span id="subtotal">0 DH</span>
+                </div>
+                <div class="summary-row discount">
+                    <span>Remise (3+ jeux) :</span>
+                    <span id="discount">0 DH</span>
+                </div>
+                <div class="summary-row total">
+                    <span>TOTAL :</span>
+                    <span id="total-price">0 DH</span>
+                </div>
+                
+                <div class="cart-warning" id="cart-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Minimum 3 articles requis
+                </div>
+                
+                <div class="cart-actions">
+                    <button class="btn btn-danger" onclick="clearCart()">
+                        <i class="fas fa-trash"></i> Vider
+                    </button>
+                    <button class="btn btn-primary" id="confirm-btn" onclick="confirmOrder()" disabled>
+                        <i class="fas fa-check-circle"></i> Confirmer
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ticket d'impression (caché) -->
+        <div id="ticket-container" style="display: none;">
+            <div id="ticket-content"></div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-map-marker-alt"></i> ADRESSE</h4>
+                    <p>Amine Games & Services</p>
+                    <p>Casablanca, Maroc</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4><i class="fas fa-clock"></i> HORAIRES</h4>
+                    <p>Lun-Sam: 9h-20h</p>
+                    <p>Dim: 10h-18h</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4><i class="fas fa-phone"></i> CONTACT</h4>
+                    <p>+212 6 XX XX XX XX</p>
+                    <p>contact@aminegames.com</p>
+                </div>
+                
+                <div class="footer-section">
+                    <div class="inactivity-timer">
+                        <i class="fas fa-hourglass-half"></i>
+                        <span id="inactivity-timer">15:00</span>
+                    </div>
+                    <button class="btn-admin" onclick="openAdmin()" title="Administration">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Amine Games & Services - Tous droits réservés</p>
+                <p>Borne Interactive v2.0</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modal de confirmation -->
+    <div class="modal-overlay" id="modal-overlay"></div>
+    <div class="modal" id="confirmation-modal">
+        <div class="modal-header">
+            <h3><i class="fas fa-check-circle"></i> Commande Confirmée</h3>
+            <button class="close-modal" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="order-success">
+                <i class="fas fa-receipt"></i>
+                <h4>Votre commande a été enregistrée</h4>
+                <p id="order-number"></p>
+                <p>Le ticket va s'imprimer automatiquement</p>
+            </div>
+            <div class="order-details" id="order-details"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" onclick="printTicket()">
+                <i class="fas fa-print"></i> Imprimer à nouveau
+            </button>
+            <button class="btn" onclick="closeModalAndReset()">
+                <i class="fas fa-home"></i> Retour à l'accueil
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

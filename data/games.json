@@ -1,0 +1,141 @@
+{
+  "games": [
+    {
+      "id": 1,
+      "name": "God of War Ragnarök",
+      "platform": "PS5",
+      "category": "Action-Aventure",
+      "price": 300,
+      "stock": 5,
+      "image": "god-of-war-ragnarok.jpg",
+      "description": "La suite épique de la saga God of War",
+      "popularity": 95
+    },
+    {
+      "id": 2,
+      "name": "FIFA 23",
+      "platform": "PS5",
+      "category": "Sport",
+      "price": 250,
+      "stock": 8,
+      "image": "fifa-23.jpg",
+      "description": "Jeu de football avec les dernières équipes",
+      "popularity": 88
+    },
+    {
+      "id": 3,
+      "name": "Halo Infinite",
+      "platform": "XBOX Series",
+      "category": "FPS",
+      "price": 280,
+      "stock": 6,
+      "image": "halo-infinite.jpg",
+      "description": "Nouvel épisode de la saga Halo",
+      "popularity": 92
+    },
+    {
+      "id": 4,
+      "name": "The Legend of Zelda: Tears of the Kingdom",
+      "platform": "Switch",
+      "category": "Action-Aventure",
+      "price": 350,
+      "stock": 4,
+      "image": "zelda-tears-kingdom.jpg",
+      "description": "Suite de Breath of the Wild",
+      "popularity": 98
+    },
+    {
+      "id": 5,
+      "name": "Call of Duty: Modern Warfare II",
+      "platform": "PS5",
+      "category": "FPS",
+      "price": 320,
+      "stock": 7,
+      "image": "cod-mw2.jpg",
+      "description": "Jeu de tir tactique",
+      "popularity": 90
+    },
+    {
+      "id": 6,
+      "name": "Gran Turismo 7",
+      "platform": "PS5",
+      "category": "Course",
+      "price": 290,
+      "stock": 5,
+      "image": "gran-turismo-7.jpg",
+      "description": "Simulateur de course réaliste",
+      "popularity": 85
+    },
+    {
+      "id": 7,
+      "name": "Forza Horizon 5",
+      "platform": "XBOX Series",
+      "category": "Course",
+      "price": 270,
+      "stock": 6,
+      "image": "forza-horizon-5.jpg",
+      "description": "Jeu de course en monde ouvert",
+      "popularity": 87
+    },
+    {
+      "id": 8,
+      "name": "Mario Kart 8 Deluxe",
+      "platform": "Switch",
+      "category": "Course",
+      "price": 230,
+      "stock": 10,
+      "image": "mario-kart-8.jpg",
+      "description": "Course amusante avec les personnages Nintendo",
+      "popularity": 94
+    },
+    {
+      "id": 9,
+      "name": "Spider-Man: Miles Morales",
+      "platform": "PS5",
+      "category": "Action-Aventure",
+      "price": 260,
+      "stock": 4,
+      "image": "spider-man-miles.jpg",
+      "description": "Aventure de Spider-Man dans New York",
+      "popularity": 89
+    },
+    {
+      "id": 10,
+      "name": "Animal Crossing: New Horizons",
+      "platform": "Switch",
+      "category": "Simulation",
+      "price": 240,
+      "stock": 9,
+      "image": "animal-crossing.jpg",
+      "description": "Jeu de simulation de vie",
+      "popularity": 91
+    }
+  ],
+  "categories": [
+    {
+      "id": "PS5",
+      "name": "PlayStation 5",
+      "icon": "fab fa-playstation",
+      "color": "#003791"
+    },
+    {
+      "id": "PS4",
+      "name": "PlayStation 4",
+      "icon": "fab fa-playstation",
+      "color": "#0066cc"
+    },
+    {
+      "id": "XBOX Series",
+      "name": "XBOX Series",
+      "icon": "fab fa-xbox",
+      "color": "#107c10"
+    },
+    {
+      "id": "Switch",
+      "name": "Nintendo Switch",
+      "icon": "fas fa-gamepad",
+      "color": "#e60012"
+    }
+  ],
+  "lastUpdate": "2024-01-15T10:30:00Z"
+}

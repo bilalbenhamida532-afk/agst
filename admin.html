@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration - Amine Games & Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff4757;
+            --secondary: #3742fa;
+            --accent: #ffa502;
+            --dark: #2f3542;
+            --light: #f1f2f6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e272e 0%, #0c2461 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .admin-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--accent);
+        }
+        
+        .admin-header h1 {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .admin-nav {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-btn.active {
+            background: var(--primary);
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 71, 87, 0.3);
+        }
+        
+        .admin-section {
+            display: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .admin-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .section-header h2 {
+            color: var(--accent);
+            font-size: 1.8rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--light);
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        th {
+            background: rgba(255, 71, 87, 0.2);
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #ff2e43;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #2f34cc;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: #2ed573;
+            color: white;
+        }
+        
+        .btn-warning {
+            background: #ff9f43;
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #ff3838;
+            color: white;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--light);
+            font-weight: bold;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .upload-area {
+            border: 3px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 3rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(255, 71, 87, 0.1);
+        }
+        
+        .upload-area i {
+            font-size: 4rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .file-list {
+            margin-top: 2rem;
+        }
+        
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--accent);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 20px rgba(255, 165, 2, 0.3);
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal {
+            background: #2f3542;
+            border-radius: 15px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-nav {
+                flex-direction: column;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-btn" title="Retour à la borne">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+    
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1><i class="fas fa-cog"></i> Administration</h1>
+            <p>Gestion de la borne interactive Amine Games & Services</p>
+        </div>
+        
+        <div class="admin-nav">
+            <button class="nav-btn active" onclick="showSection('dashboard')">
+                <i class="fas fa-tachometer-alt"></i> Tableau de bord
+            </button>
+            <button class="nav-btn" onclick="showSection('games')">
+                <i class="fas fa-gamepad"></i> Gestion des jeux
+            </button>
+            <button class="nav-btn" onclick="showSection('import')">
+                <i class="fas fa-file-import"></i> Import Excel/Images
+            </button>
+            <button class="nav-btn" onclick="showSection('sales')">
+                <i class="fas fa-chart-line"></i> Ventes & Rapports
+            </button>
+            <button class="nav-btn" onclick="showSection('settings')">
+                <i class="fas fa-sliders-h"></i> Paramètres
+            </button>
+        </div>
+        
+        <!-- Tableau de bord -->
+        <div id="dashboard-section" class="admin-section active">
+            <div class="section-header">
+                <h2>Tableau de bord</h2>
+                <div>
+                    <button class="btn btn-primary" onclick="refreshData()">
+                        <i class="fas fa-sync-alt"></i> Actualiser
+                    </button>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="total-games">0</div>
+                    <div class="stat-label">Jeux en stock</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-value" id="total-sales">0</div>
+                    <div class="stat-label">Ventes totales</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-value" id="total-revenue">0 DH</div>
+                    <div class="stat-label">Chiffre d'affaires</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-value" id="low-stock">0</div>
+                    <div class="stat-label">Stock faible</div>
+                </div>
+            </div>
+            
+            <h3 style="margin-bottom: 1rem; color: var(--accent);">Dernières ventes</h3>
+            <div id="recent-sales">
+                <!-- Les ventes seront chargées ici -->
+            </div>
+        </div>
+        
+        <!-- Gestion des jeux -->
+        <div id="games-section" class="admin-section">
+            <div class="section-header">
+                <h2>Gestion des jeux</h2>
+                <div>
+                    <button class="btn btn-primary" onclick="openAddGameModal()">
+                        <i class="fas fa-plus"></i> Ajouter un jeu
+                    </button>
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <input type="text" id="game-search-admin" placeholder="Rechercher un jeu..." style="max-width: 300px;">
+            </div>
+            
+            <div id="games-list">
+                <!-- Liste des jeux -->
+            </div>
+        </div>
+        
+        <!-- Import -->
+        <div id="import-section" class="admin-section">
+            <div class="section-header">
+                <h2>Import des données</h2>
+                <div>
+                    <button class="btn btn-secondary" onclick="downloadTemplate()">
+                        <i class="fas fa-download"></i> Template Excel
+                    </button>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <h3 style="margin-bottom: 1rem; color: var(--accent);">Import Excel</h3>
+                <div class="upload-area" onclick="document.getElementById('excel-file').click()">
+                    <i class="fas fa-file-excel"></i>
+                    <p>Cliquez pour sélectionner un fichier Excel (.xlsx, .xls)</p>
+                    <p><small>Format attendu: Nom, Plateforme, Catégorie, Prix, Stock, Image</small></p>
+                </div>
+                <input type="file" id="excel-file" accept=".xlsx,.xls" style="display: none;" onchange="handleExcelUpload(this.files[0])">
+                
+                <div id="excel-preview" class="file-list"></div>
+            </div>
+            
+            <div class="form-group">
+                <h3 style="margin-bottom: 1rem; color: var(--accent);">Import d'images</h3>
+                <div class="upload-area" onclick="document.getElementById('image-files').click()">
+                    <i class="fas fa-images"></i>
+                    <p>Cliquez pour sélectionner des images (.jpg, .png)</p>
+                    <p><small>Structure: images/[plateforme]/[nom-fichier].jpg</small></p>
+                </div>
+                <input type="file" id="image-files" accept=".jpg,.jpeg,.png" multiple style="display: none;" onchange="handleImageUpload(this.files)">
+                
+                <div id="image-preview" class="file-list"></div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-success" onclick="processImport()" style="padding: 1rem 3rem; font-size: 1.2rem;">
+                    <i class="fas fa-upload"></i> Traiter l'import
+                </button>
+            </div>
+        </div>
+        
+        <!-- Ventes -->
+        <div id="sales-section" class="admin-section">
+            <div class="section-header">
+                <h2>Historique des ventes</h2>
+                <div>
+                    <button class="btn btn-primary" onclick="exportSales()">
+                        <i class="fas fa-file-export"></i> Exporter
+                    </button>
+                </div>
+            </div>
+            
+            <div id="sales-list">
+                <!-- Liste des ventes -->
+            </div>
+        </div>
+        
+        <!-- Paramètres -->
+        <div id="settings-section" class="admin-section">
+            <div class="section-header">
+                <h2>Paramètres système</h2>
+            </div>
+            
+            <div class="form-group">
+                <label>Nom du magasin</label>
+                <input type="text" id="store-name" value="Amine Games & Services">
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Minimum d'articles</label>
+                    <input type="number" id="min-items" value="3" min="1">
+                </div>
+                
+                <div class="form-group">
+                    <label>Pourcentage de remise (%)</label>
+                    <input type="number" id="discount-percent" value="10" min="0" max="100">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Délai d'inactivité (minutes)</label>
+                <input type="number" id="inactivity-timeout" value="15" min="1" max="60">
+            </div>
+            
+            <div class="form-group">
+                <label>Chemin des images</label>
+                <input type="text" id="image-path" value="uploads/images/">
+            </div>
+            
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button class="btn btn-primary" onclick="saveSettings()">
+                    <i class="fas fa-save"></i> Sauvegarder
+                </button>
+                <button class="btn btn-secondary" onclick="resetSettings()">
+                    <i class="fas fa-undo"></i> Réinitialiser
+                </button>
+                <button class="btn btn-warning" onclick="backupData()">
+                    <i class="fas fa-database"></i> Sauvegarde
+                </button>
+                <button class="btn btn-danger" onclick="restoreData()">
+                    <i class="fas fa-history"></i> Restaurer
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Ajout/Modification de jeu -->
+    <div id="game-modal-overlay" class="modal-overlay">
+        <div class="modal">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3 id="game-modal-title" style="color: var(--accent);"></h3>
+                <button class="btn" onclick="closeGameModal()" style="background: none; color: white; font-size: 1.5rem;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div id="game-modal-content">
+                <!-- Formulaire sera injecté ici -->
+            </div>
+        </div>
+    </div>
+    
+    <script src="admin.js"></script>
+</body>
+</html>
